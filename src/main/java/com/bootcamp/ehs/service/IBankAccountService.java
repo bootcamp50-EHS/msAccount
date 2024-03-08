@@ -15,7 +15,7 @@ public interface IBankAccountService {
 
     Mono<BankAccount> saveAccount(BankAccount bankAccount);
 
-    Mono<BankAccount> updateAccount(String id, BankAccount bankAccount);
+    Mono<BankAccount> updateAccount(BankAccount bankAccount);
 
     Flux<BankAccount> findAllByCustomer(String customerId );
 
@@ -26,9 +26,7 @@ public interface IBankAccountService {
 
     Mono<Boolean> hasLeastOneOwner(BankAccount bankAccount);
 
-    Mono<BankAccount> doDeposit(TransactionDTO transaction);
 
-    Mono<BankAccount> doWithdrawal(TransactionDTO transaction);
+    Mono<BankAccount> getByAccountId(String accountId);
 
-    Mono<BankAccount> doTransferBetweenAccounts(TransferDTO transfer);
 }

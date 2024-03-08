@@ -7,4 +7,6 @@ import reactor.core.publisher.Mono;
 public interface IProductWebClientService {
 
     Mono<ProductDTO> findProductById(String id);
+
+    Mono<ProductDTO> findProductByCode(String codeAccount);
 }

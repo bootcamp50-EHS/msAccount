@@ -10,5 +10,5 @@ public interface IBankAccountRepo extends ReactiveMongoRepository<BankAccount, S
 
     Mono<Long> countByCustomerId (String customerId);
 
-    //Mono<Long> countByCustomerIdAndProductId(String customerId, String typeProduct);
+    Mono<Long> countByCustomerIdAndProductIdAndBank(BankAccount bankAccount);
 }

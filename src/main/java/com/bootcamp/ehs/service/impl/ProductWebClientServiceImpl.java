@@ -22,4 +22,12 @@ public class ProductWebClientServiceImpl implements IProductWebClientService {
                 .retrieve()
                 .bodyToMono(ProductDTO.class);
     }
+
+    @Override
+    public Mono<ProductDTO> findProductByCode(String codeAccount) {
+        return productWebClient.get()
+                .uri("/product/bycode/{codeAccount}", codeAccount)
+                .retrieve()
+                .bodyToMono(ProductDTO.class);
+    }
 }
