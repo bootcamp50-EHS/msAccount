@@ -18,6 +18,9 @@ public class WebClientConfig {
     @Value("${transactions.service.url}")
     private String transactionServiceUrl;
 
+    @Value("${banks.service.url}")
+    private String bankServiceUrl;
+
     @Bean
     public WebClient customerWebClient() {
         return WebClient.builder()
@@ -36,6 +39,13 @@ public class WebClientConfig {
     public WebClient transactionWebClient(){
         return WebClient.builder()
                 .baseUrl(transactionServiceUrl)
+                .build();
+    }
+
+    @Bean
+    public WebClient bankWebClient(){
+        return WebClient.builder()
+                .baseUrl(bankServiceUrl)
                 .build();
     }
 }

@@ -7,4 +7,6 @@ public interface ICustomerWebClientService {
 
     Mono<CustomerDTO> findCustomerById(String id);
 
+    Mono<CustomerDTO> findCustomerByDocNumber(String docNumber);
+
 }

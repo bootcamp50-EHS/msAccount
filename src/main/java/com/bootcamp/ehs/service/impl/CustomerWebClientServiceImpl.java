@@ -21,4 +21,12 @@ public class CustomerWebClientServiceImpl implements ICustomerWebClientService {
                 .retrieve()
                 .bodyToMono(CustomerDTO.class);
     }
+
+    @Override
+    public Mono<CustomerDTO> findCustomerByDocNumber(String docNumber) {
+        return customerWebClient.get()
+                .uri("/customer/bydocnumber/{docNumber}", docNumber)
+                .retrieve()
+                .bodyToMono(CustomerDTO.class);
+    }
 }

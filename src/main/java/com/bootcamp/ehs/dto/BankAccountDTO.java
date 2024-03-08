@@ -9,6 +9,7 @@ import java.util.List;
 public class BankAccountDTO {
 
     private String id;
+    private BankDTO bank;
     private CustomerDTO customer;
     private ProductDTO product;
     private String accountNumber;
