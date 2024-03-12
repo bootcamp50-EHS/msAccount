@@ -66,11 +66,21 @@ public class BankAccountServiceImpl implements IBankAccountService {
 
     private Mono<BankAccount> savePersonalAccount(BankAccount bankAccount) {
         log.info("Proceso de Cuenta Personal");
-        return bankAccountRepo.countByCustomerIdAndProductIdAndBank(bankAccount)
-                .doOnNext(count -> log.info("Cliente ya cuenta con una cuenta de este tipo en este Banco"))
+
+        return bankAccountRepo.existsByCustomerIdAndProductIdAndBank(bankAccount.getCustomerId(), bankAccount.getProductId(), bankAccount.getBank())
+                .flatMap(exists -> exists
+                        ? Mono.<BankAccount>error(new IllegalArgumentException("Cliente ya cuenta con 1 producto en este Banco"))
+                        : bankAccountRepo.save(bankAccount)
+                        .doOnNext(account -> log.info("Grabando Cuenta Personal"))
+                );
+
+
+       /* return bankAccountRepo.countByCustomerIdAndProductIdAndBank(bankAccount)
+                .doOnNext(exists -> log.info("Cliente ya cuenta con una cuenta de este tipo en este Banco"))
                 .filter(count -> count == 0)
                 .doOnNext(account -> log.info("Grabando Cuenta Personal"))
-                .flatMap(account -> bankAccountRepo.save(bankAccount));
+                .flatMap(account -> bankAccountRepo.save(bankAccount))
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Error al registrar")));*/
     }
 
     @Override
@@ -113,13 +123,13 @@ public class BankAccountServiceImpl implements IBankAccountService {
 
     // metodos de apoyo
 
-    private Mono<Long> countByCustomerIdAndTypeProduct(BankAccount bankAccount) {
+    /*private Mono<Long> countByCustomerIdAndTypeProduct(BankAccount bankAccount) {
 
         return findAllByCustomer(bankAccount.getCustomerId())
                 .doOnNext(account -> log.info("Obteniendo todas las cuentas por cliente"))
                 .filter(account -> account.getProductId().equals(bankAccount.getProductId()) )
                 .count();
 
-    }
+    }*/
 
 }

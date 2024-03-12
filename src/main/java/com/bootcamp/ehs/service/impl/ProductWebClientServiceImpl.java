@@ -15,18 +15,32 @@ public class ProductWebClientServiceImpl implements IProductWebClientService {
 
     @Qualifier("productWebClient")
     private final WebClient productWebClient;
+
+    @Qualifier("gatewayServiceUrl")
+    private final WebClient webClient;
+
     @Override
     public Mono<ProductDTO> findProductById(String id) {
-        return productWebClient.get()
-                .uri("/product/{id}", id)
+        /*return webClient.get()
+                .uri("/api/product/list/{id}", id)
+                .retrieve()
+                .bodyToMono(ProductDTO.class);*/
+
+       return productWebClient.get()
+                .uri("/api/product/list/{id}", id)
                 .retrieve()
                 .bodyToMono(ProductDTO.class);
     }
 
     @Override
     public Mono<ProductDTO> findProductByCode(String codeAccount) {
-        return productWebClient.get()
-                .uri("/product/bycode/{codeAccount}", codeAccount)
+        /*return webClient.get()
+                .uri("/api/product/bycode/{codeAccount}", codeAccount)
+                .retrieve()
+                .bodyToMono(ProductDTO.class);*/
+
+       return productWebClient.get()
+                .uri("/api/product/list/bycode/{codeAccount}", codeAccount)
                 .retrieve()
                 .bodyToMono(ProductDTO.class);
     }
