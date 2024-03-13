@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 public class BankAccountController {
 
     private final IBankAccountService bankAccountService;
@@ -32,7 +32,7 @@ public class BankAccountController {
     private final IBankWebClientService bankWebClient;
 
     // Metodo para actualizar una cuenta bancaria (monto y numero de transacciones)
-    @PutMapping
+    @PutMapping("/update")
     public Mono<ResponseEntity<BankAccount>> actualizarCuentaBancaria(@RequestBody BankAccount bankAccount){
         return bankAccountService.getByAccountId(bankAccount.getId())
                 .flatMap(accountExist -> {
@@ -46,11 +46,12 @@ public class BankAccountController {
     }
 
     // Metodo para grabar una cuenta bancaria en un determinado banco
-    @PostMapping("/withbank/{codeBank}")
-    public Mono<ResponseEntity<BankAccount>> crearCuentaBancaria(@PathVariable("codeBank") String codebank,@RequestBody BankAccount bankAccount){
-                return bankWebClient.findBankByCode(codebank)
+    @PostMapping("/create/withbank/{codeBank}")
+    public Mono<ResponseEntity<BankAccount>> crearCuentaBancaria(@PathVariable("codeBank") String codeBank,@RequestBody BankAccount bankAccount){
+                return bankWebClient.findBankByCode(codeBank)
                         .switchIfEmpty(Mono.error(new IllegalArgumentException("Banco no existe")))
                         .flatMap(bankExist -> {
+                            System.out.println(bankExist);
                             bankAccount.setBank(bankExist);
                             return bankAccountService.saveAccount(bankAccount)
                                     .map(ResponseEntity::ok)
@@ -76,7 +77,7 @@ public class BankAccountController {
     }
 
     // Metodo para obteber la cuenta con el id.
-    @GetMapping("/{accountId}")
+    @GetMapping("/list/{accountId}")
     public Mono<BankAccount> getAccountById(@PathVariable("accountId") String accountId){
         return bankAccountService.getByAccountId(accountId);
     }
