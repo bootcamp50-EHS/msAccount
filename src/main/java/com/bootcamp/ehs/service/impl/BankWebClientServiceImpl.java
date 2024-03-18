@@ -25,15 +25,15 @@ public class BankWebClientServiceImpl implements IBankWebClientService {
 
     @Override
     public Mono<BankDTO> findBankByCode(String codeBank) {
-        LOGGER.info("En findBankByCode: el codeBank= "+ codeBank);
-        /*return webClient.get()
+        LOGGER.info("Gateway -> En findBankByCode: el codeBank= "+ codeBank);
+        return webClient.get()
+                .uri("/api/bank/list/code/{codeBank}", codeBank)
+                .retrieve()
+                .bodyToMono(BankDTO.class);
+
+        /*return bankWebClient.get()
                 .uri("/api/bank/list/code/{codeBank}", codeBank)
                 .retrieve()
                 .bodyToMono(BankDTO.class);*/
-
-        return bankWebClient.get()
-                .uri("/list/code/{codeBank}", codeBank)
-                .retrieve()
-                .bodyToMono(BankDTO.class);
     }
 }

@@ -25,16 +25,16 @@ public class CustomerWebClientServiceImpl implements ICustomerWebClientService {
 
     @Override
     public Mono<CustomerDTO> findCustomerById(String id) {
-        LOGGER.info("En findCustomerById: el id= "+ id);
-        /*return webClient.get()
-                .uri("/api/customer/list/{id}", id)
-                .retrieve()
-                .bodyToMono(CustomerDTO.class);*/
-
-        return customerWebClient.get()
+        LOGGER.info("Gateway -> En findCustomerById: el id= "+ id);
+        return webClient.get()
                 .uri("/api/customer/list/{id}", id)
                 .retrieve()
                 .bodyToMono(CustomerDTO.class);
+
+        /*return customerWebClient.get()
+                .uri("/api/customer/list/{id}", id)
+                .retrieve()
+                .bodyToMono(CustomerDTO.class);*/
     }
 
     @Override
