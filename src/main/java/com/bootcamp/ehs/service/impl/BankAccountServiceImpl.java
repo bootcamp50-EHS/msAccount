@@ -6,13 +6,9 @@ import com.bootcamp.ehs.repo.IBankAccountRepo;
 import com.bootcamp.ehs.service.IBankAccountService;
 import com.bootcamp.ehs.service.ICustomerWebClientService;
 import com.bootcamp.ehs.service.IProductWebClientService;
-import com.bootcamp.ehs.service.ITransactionWebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,8 +27,6 @@ public class BankAccountServiceImpl implements IBankAccountService {
     private final ICustomerWebClientService customerService;
 
     private final IProductWebClientService productService;
-
-    private final ITransactionWebClientService transactionService;
 
 
     // Metodo para guardar las cuentas bancarias
@@ -74,13 +68,6 @@ public class BankAccountServiceImpl implements IBankAccountService {
                         .doOnNext(account -> log.info("Grabando Cuenta Personal"))
                 );
 
-
-       /* return bankAccountRepo.countByCustomerIdAndProductIdAndBank(bankAccount)
-                .doOnNext(exists -> log.info("Cliente ya cuenta con una cuenta de este tipo en este Banco"))
-                .filter(count -> count == 0)
-                .doOnNext(account -> log.info("Grabando Cuenta Personal"))
-                .flatMap(account -> bankAccountRepo.save(bankAccount))
-                .switchIfEmpty(Mono.error(new IllegalArgumentException("Error al registrar")));*/
     }
 
     @Override
@@ -121,15 +108,5 @@ public class BankAccountServiceImpl implements IBankAccountService {
     }
 
 
-    // metodos de apoyo
-
-    /*private Mono<Long> countByCustomerIdAndTypeProduct(BankAccount bankAccount) {
-
-        return findAllByCustomer(bankAccount.getCustomerId())
-                .doOnNext(account -> log.info("Obteniendo todas las cuentas por cliente"))
-                .filter(account -> account.getProductId().equals(bankAccount.getProductId()) )
-                .count();
-
-    }*/
 
 }
